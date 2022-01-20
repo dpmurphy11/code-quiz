@@ -13,9 +13,8 @@ body {
     background-color: white;
     width: 50vw;
     height: 50vh;
-    margin: 10px auto;
+    margin: auto auto;
     padding: 10px;
-
 }
 
 #high-scores {
