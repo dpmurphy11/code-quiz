@@ -1,3 +1,4 @@
+var headerDiv =  document.querySelector('header');
 var gameDiv = document.querySelector('#game');
 var highScoresDiv = document.querySelector('#high-scores');
 var saveScoresDiv = document.querySelector('#save-scores');
@@ -15,6 +16,7 @@ var scoreH2 = document.querySelector('#final-score');
 var nameInput = document.querySelector('#name');
 
 var counter = 60;
+var questionIdx = 0;
 
 var highScores = JSON.parse(localStorage.getItem('scores'));
 if (highScores === null) {
@@ -37,6 +39,7 @@ arrQuestions[4] = ['Quest5',['answer1', 'answer2', 'answer3', 'answer4'], 'answe
 
 // functions
 function loadGame() {
+  headerDiv.setAttribute('style', 'display: visible');
   startDiv.setAttribute('style', 'display: visible');
   highScoresDiv.setAttribute('style', 'display: none');
   saveScoresDiv.setAttribute('style', 'display: none');
@@ -50,29 +53,52 @@ loadGame();
 
 function gameStart(event) {
     event.preventDefault();
-    loadGame();
-    // console.log(event);
-    // setInterval for every second
+    headerDiv.setAttribute('style', 'display: visible');
+    startDiv.setAttribute('style', 'display: none');
+    highScoresDiv.setAttribute('style', 'display: none');
+    saveScoresDiv.setAttribute('style', 'display: none');
+    gameDiv.setAttribute('style', 'display: visible');
+      // console.log(event);
+    // start timer
     var timeInterval = setInterval(function () {
       timerSpan.textContent = "Time: " + counter
         if (counter > 0 && arrQuestions.length > 0) {
-          // get question
-
-          // render q & a
-          
-          // pop question
-
-          // 
         counter--;
       } else {
-        // stop counter
         clearInterval(timeInterval);
-
-        // 
       }
     }, 1000);
-  
-}
+    // ask first question
+    renderQuestion();
+};
+
+function renderQuestion() {
+  // render next question
+  questionH1.textContent = arrQuestions[questionIdx][0];
+  // questionH1.textContent = arrQuestions[questionIdx][0][1]; // index 1 of answers array
+  // questionH1.textContent = arrQuestions[questionIdx][1]; //all answers
+  // questionH1.textContent = arrQuestions[questionIdx][2]; // corect answer
+  // render answers
+  console.log(arrQuestions[questionIdx][1].length)
+  for (var i=0; i < arrQuestions[questionIdx][1].length; i++) {
+    var answer = document.createElement('button');
+    answer.setAttribute('style', 'display: block');
+    answer.setAttribute('value', arrQuestions[questionIdx][1][i]);
+    answer.textContent = arrQuestions[questionIdx][1][i];
+    // add event listener
+    answer.addEventListener('click', function() {
+      //
+      event.preventDefault();
+      console.log(this.value);
+    });
+    answersOl.appendChild(answer);
+  };
+  // // remove question from array
+  arrQuestions.pop();
+  questionIdx++;
+
+
+};
 
 function saveScore(event) {
     event.preventDefault();
@@ -96,6 +122,7 @@ function clearScores(event) {
 
 function renderScores(event) {
     event.preventDefault();
+    headerDiv.setAttribute('style', 'display: none');
     startDiv.setAttribute('style', 'display: none');
     highScoresDiv.setAttribute('style', 'display: visible');
     saveScoresDiv.setAttribute('style', 'display: none');

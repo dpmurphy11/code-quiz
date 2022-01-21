@@ -8,6 +8,12 @@ body {
     min-height: 100vh;
     background-color: #080a0c98;
 }
+ header {
+    background-color: white;
+    width: 50vw;
+    margin: auto;
+    padding: 10px;;
+}
 
 .main {
     background-color: white;
