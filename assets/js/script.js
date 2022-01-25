@@ -33,11 +33,11 @@ if (highScores === null) {
 // Element 3: Correct answer
 // Element 4: Points for correct answer
 var arrQuestions = [];
-arrQuestions[0] = ['Quest1',['answer1', 'answer2', 'answer3', 'answer4'], 'answer3', 10];
-arrQuestions[1] = ['Quest2',['answer1', 'answer2', 'answer3', 'answer4'], 'answer1', 20];
-arrQuestions[2] = ['Quest3',['answer1', 'answer2', 'answer3', 'answer4'], 'answer4', 10];
-arrQuestions[3] = ['Quest4',['answer1', 'answer2', 'answer3', 'answer4'], 'answer2', 12];
-arrQuestions[4] = ['Quest5',['answer1', 'answer2', 'answer3', 'answer4'], 'answer1', 25];
+arrQuestions[0] = ['Quest1',['answer1', 'answer2', 'answer3', 'answer4'], 0, 10];
+arrQuestions[1] = ['Quest2',['answer1', 'answer2', 'answer3', 'answer4'], 1, 20];
+arrQuestions[2] = ['Quest3',['answer1', 'answer2', 'answer3', 'answer4'], 2, 10];
+arrQuestions[3] = ['Quest4',['answer1', 'answer2', 'answer3', 'answer4'], 3, 12];
+arrQuestions[4] = ['Quest5',['answer1', 'answer2', 'answer3', 'answer4'], 0, 25];
 // console.log(arrQuestions);
 
 // functions
@@ -91,7 +91,8 @@ function renderQuestion() {
     for (var i=0; i < arrQuestions[questionIdx][1].length; i++) {
       var answer = document.createElement('button');
       answer.setAttribute('style', 'display: block');
-      answer.setAttribute('value', arrQuestions[questionIdx][1][i]);
+      // answer.setAttribute('value', arrQuestions[questionIdx][1][i]);
+      answer.setAttribute('value', i);
       answer.textContent = arrQuestions[questionIdx][1][i];
       // add event listener
       answer.addEventListener('click', calcAnswer);
@@ -100,7 +101,7 @@ function renderQuestion() {
   } else {
         // end timer and show save score 
         clearInterval(timeInterval);
-        saveScore();
+        // saveScore();
   }
 }
 
@@ -133,11 +134,13 @@ function saveScore() {
     
     saveBtn.addEventListener('click', function() {
       // put user initials and score in array
-      highScores.concat(nameInput.value, userScore);
+      highScores.push(nameInput.value, userScore);
       console.log(highScores);
 
       // save to local storage
       localStorage.setItem('highScores', JSON.stringify(highScores));
+
+      renderScores();
 
     });
 }
@@ -149,7 +152,7 @@ function clearScores(event) {
     renderScores();
 }
 
-function renderScores(event) {
+function renderScores() {
     event.preventDefault();
     headerDiv.setAttribute('style', 'display: none');
     startDiv.setAttribute('style', 'display: none');
@@ -161,7 +164,7 @@ function renderScores(event) {
 
     // order scores
 
-    // render scores
+    // show scores
 }
 
 // event listeners
@@ -169,7 +172,7 @@ startBtn.addEventListener('click', gameStart);
 
 scoresSpan.addEventListener('click', renderScores);
 
-saveBtn.addEventListener('click', saveScore);
+// saveBtn.addEventListener('click', saveScore);
 
 backBtn.addEventListener('click', gameStart);
 
